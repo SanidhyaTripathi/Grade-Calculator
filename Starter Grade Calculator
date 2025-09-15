@@ -1,0 +1,31 @@
+console.log("Welcome to the Grade Calculator!");
+console.log("This program will help you calculate your final grade based on your scores.");
+console.log("Please enter your scores for assignments, quizzes, and exams.");
+console.log("Let's get started!");
+readline = require 'readline'
+
+rl = readline.createInterface
+    input: process.stdin
+    output: process.stdout
+
+getNumber = (prompt, cb) ->
+    rl.question prompt, (input) ->
+        num = parseFloat(input)
+        if isNaN(num)
+            console.log "Please enter a valid number."
+            getNumber prompt, cb
+        else
+            cb num
+
+scores = {}
+
+getNumber "Enter your assignment score (out of 100): ", (assignment) ->
+    scores.assignment = assignment
+    getNumber "Enter your quiz score (out of 100): ", (quiz) ->
+        scores.quiz = quiz
+        getNumber "Enter your exam score (out of 100): ", (exam) ->
+            scores.exam = exam
+            # Example weights: assignments 40%, quizzes 20%, exams 40%
+            finalGrade = scores.assignment * 0.4 + scores.quiz * 0.2 + scores.exam * 0.4
+            console.log "Your final grade is: #{finalGrade.toFixed(2)}"
+            rl.close()
